@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Олег Маслов — профессиональный фотограф в Перми" />
+<title>Oleg Maslov — Photographer</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          gold: '#D4AF37',
+          ink: '#0A0A0A'
+        },
+        fontFamily: {
+          serif: ['"Playfair Display"', 'serif'],
+          sans: ['Inter', 'sans-serif']
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  * { -webkit-font-smoothing: antialiased; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0A0A0A;
+    color: #fff;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4, .font-serif { font-family: 'Playfair Display', serif; }
+
+  /* Navigation */
+  .nav-link {
+    position: relative;
+    transition: color .3s ease;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: -4px;
+    width: 0; height: 1px;
+    background: #D4AF37;
+    transition: width .4s ease;
+  }
+  .nav-link:hover, .nav-link.active { color: #D4AF37; }
+  .nav-link.active::after { width: 100%; }
+
+  /* Hero */
+  .hero-bg {
+    background-image: url('images/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    will-change: transform;
+  }
+  .hero-overlay {
+    background: rgba(10, 10, 10, 0.6);
+  }
+
+  /* Portfolio Grid */
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 16px;
+  }
+  @media (min-width: 640px) {
+    .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1024px) {
+    .portfolio-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .portfolio-item {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    cursor: pointer;
+    background: #1a1a1a;
+  }
+  .portfolio-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .6s ease;
+  }
+  .portfolio-item:hover img {
+    transform: scale(1.08);
+  }
+  .portfolio-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10, 10, 10, 0.4);
+    opacity: 0;
+    transition: opacity .4s ease;
+  }
+  .portfolio-item:hover .portfolio-overlay {
+    opacity: 1;
+  }
+  .portfolio-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #fff;
+    text-align: center;
+    padding: 0 1rem;
+  }
+  @media (min-width: 768px) {
+    .portfolio-name { font-size: 1.5rem; }
+  }
+
+  /* Services/Pricing Section */
+  .pricing-section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .pricing-bg {
+    /* ЗАМЕНИТЕ НА СВОЁ ФОТО */
+    background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    inset: 0;
+    filter: brightness(0.4);
+  }
+  .pricing-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 2rem;
+    max-width: 900px;
+    width: 100%;
+  }
+  .pricing-line {
+    width: 100%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.3);
+    margin: 1.5rem 0;
+  }
+  @media (min-width: 768px) {
+    .pricing-line { margin: 2rem 0; }
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: #0A0A0A; }
+  ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 4px; }
+
+  /* Reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  /* Mobile menu button */
+  .mobile-menu-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+  }
+  .mobile-menu-btn span {
+    width: 24px;
+    height: 2px;
+    background: #D4AF37;
+    transition: all .3s ease;
+  }
+</style>
+</head>
+<body class="bg-ink text-white">
+
+<!-- NAVIGATION -->
+<nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-ink/80 border-b border-gold/20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+    <a href="#home" class="font-serif text-xl sm:text-2xl font-bold tracking-widest text-gold">OM<span class="text-white">.</span></a>
+
+    <!-- Desktop Menu -->
+    <ul class="hidden md:flex items-center gap-8 lg:gap-12">
+      <li><a href="#home" class="nav-link active">Главная</a></li>
+      <li><a href="#portfolio" class="nav-link">Портфолио</a></li>
+      <li><a href="#pricing" class="nav-link">Стоимость</a></li>
+    </ul>
+
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn md:hidden" onclick="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="hidden md:hidden bg-ink/95 backdrop-blur-md border-b border-gold/20">
+    <ul class="flex flex-col items-center gap-4 py-6">
+      <li><a href="#home" class="nav-link text-lg" onclick="toggleMobileMenu()">Главная</a></li>
+      <li><a href="#portfolio" class="nav-link text-lg" onclick="toggleMobileMenu()">Портфолио</a></li>
+      <li><a href="#pricing" class="nav-link text-lg" onclick="toggleMobileMenu()">Стоимость</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home" class="relative h-screen w-full overflow-hidden">
+  <div class="hero-bg absolute inset-0"></div>
+  <div class="hero-overlay absolute inset-0"></div>
+
+  <div class="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 sm:px-6">
+    <p class="text-gold uppercase tracking-[0.3em] text-xs sm:text-sm mb-4 sm:mb-6 reveal">Фотограф · Пермь, Россия</p>
+    <h1 class="font-serif text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-4 sm:mb-6 reveal">
+      Олег Маслов
+    </h1>
+    <p class="text-base sm:text-lg md:text-xl text-white/80 max-w-2xl mb-8 sm:mb-10 px-2 reveal">
+      Превращаю обычные моменты в вечные произведения искусства
+    </p>
+    <a href="#portfolio" class="border border-gold text-gold px-8 sm:px-10 py-3 sm:py-4 text-xs sm:text-sm uppercase tracking-[0.3em] hover:bg-gold hover:text-ink transition-all duration-400 reveal">
+      Смотреть работы
+    </a>
+  </div>
+
+  <div class="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 text-gold animate-bounce">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio" class="py-16 sm:py-24 md:py-32 px-4 sm:px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12 sm:mb-16 reveal">
+      <p class="text-gold uppercase tracking-[0.4em] text-xs mb-4">Portfolio</p>
+      <h2 class="font-serif text-3xl sm:text-4xl md:text-6xl font-bold">Работы</h2>
+      <div class="w-12 sm:w-16 h-px bg-gold mx-auto mt-6 sm:mt-8"></div>
+    </div>
+
+    <div class="portfolio-grid" id="portfolioGrid">
+      <!-- Items will be generated by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="pricing-section">
+  <div class="pricing-bg"></div>
+  <div class="pricing-content reveal">
+    <p class="text-white/90 uppercase tracking-[0.3em] text-xs sm:text-sm mb-6 sm:mb-8">
+      Понедельник - Четверг от 5 часов<br>
+      Пятница - Воскресенье от 10 часов
+    </p>
+    
+    <div class="pricing-line"></div>
+    
+    <p class="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-gold mb-6 sm:mb-8">
+      2 000 ₽ / час
+    </p>
+    
+    <div class="pricing-line"></div>
+    
+    <p class="text-white/80 uppercase tracking-[0.2em] text-xs sm:text-sm mt-6 sm:mt-8 space-y-2 sm:space-y-3">
+      <span class="block">Плёнка + Цифра</span>
+      <span class="block">Анонс в течение недели</span>
+      <span class="block">Все готовые фото в течение 3 дней</span>
+    </p>
+
+    <a href="#contact" class="inline-block mt-8 sm:mt-12 bg-white/90 text-ink px-8 sm:px-12 py-3 sm:py-4 uppercase tracking-[0.2em] text-xs sm:text-sm font-semibold hover:bg-gold hover:text-white transition-all duration-400 rounded-full">
+      Забронировать
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact" class="border-t border-gold/20 py-8 sm:py-10 px-4 sm:px-6 text-center">
+  <p class="font-serif text-xl sm:text-2xl text-gold mb-2">OM<span class="text-white">.</span></p>
+  <p class="text-white/50 text-xs sm:text-sm">© 2026 Oleg Maslov · Perm.</p>
+</footer>
+
+<script>
+/* ========== MOBILE MENU ========== */
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  menu.classList.toggle('hidden');
+}
+
+/* ========== PORTFOLIO DATA ========== */
+const portfolioData = [
+  { 
+    src: 'images/portfolio/Алина/photo1.jpg', 
+    name: 'Алина',
+    series: [
+      'images/portfolio/Алина/1.JPG',
+      'images/portfolio/Алина/2.JPG',
+      'images/portfolio/Алина/3.JPG',
+      'images/portfolio/Алина/4.JPG',
+      'images/portfolio/Алина/5.JPG',
+      'images/portfolio/Алина/6.JPG',
+      'images/portfolio/Алина/7.JPG',
+      'images/portfolio/Алина/8.JPG',
+      'images/portfolio/Алина/9.JPG',
+      'images/portfolio/Алина/10.JPG',
+      'images/portfolio/Алина/11.JPG',
+      'images/portfolio/Алина/12.JPG',
+      'images/portfolio/Алина/13.JPG',
+      'images/portfolio/Алина/14.JPG',
+      'images/portfolio/Алина/15.JPG'
+    ]
+  },
+  { 
+    src: 'images/portfolio/Группа 2/photo.jpg', 
+    name: 'Группа 2',
+    series: [
+      'images/portfolio/Группа 2/1.JPG',
+      'images/portfolio/Группа 2/2.JPG',
+      'images/portfolio/Группа 2/3.JPG',
+      'images/portfolio/Группа 2/4.JPG'
+    ]
+  },
+  { 
+    src: 'images/portfolio/Группа 3/photo.jpg', 
+    name: 'Группа 3',
+    series: [
+      'images/portfolio/Группа 3/1.JPG',
+      'images/portfolio/Группа 3/2.JPG',
+      'images/portfolio/Группа 3/3.JPG'
+    ]
+  },
+  { 
+    src: 'images/portfolio/Группа 4/photo.jpg', 
+    name: 'Группа 4',
+    series: [
+      'images/portfolio/Группа 4/1.JPG',
+      'images/portfolio/Группа 4/2.JPG',
+      'images/portfolio/Группа 4/3.JPG',
+      'images/portfolio/Группа 4/4.JPG',
+      'images/portfolio/Группа 4/5.JPG',
+      'images/portfolio/Группа 4/6.JPG'
+    ]
+  },
+  { 
+    src: 'images/portfolio/Группа 5/photo.jpg', 
+    name: 'Группа 5',
+    series: [
+      'images/portfolio/Группа 5/1.JPG',
+      'images/portfolio/Группа 5/2.JPG'
+    ]
+  },
+  { 
+    src: 'images/portfolio/Группа 6/photo.jpg', 
+    name: 'Группа 6',
+    series: [
+      'images/portfolio/Группа 6/1.JPG',
+      'images/portfolio/Группа 6/2.JPG',
+      'images/portfolio/Группа 6/3.JPG'
+    ]
+  }
+];
+
+/* ========== RENDER PORTFOLIO ========== */
+const portfolioGrid = document.getElementById('portfolioGrid');
+
+portfolioData.forEach((item, idx) => {
+  const div = document.createElement('div');
+  div.className = 'portfolio-item reveal';
+  div.innerHTML = `
+    <img src="${item.src}" alt="${item.name}" loading="lazy">
+    <div class="portfolio-overlay">
+      <div class="portfolio-name">${item.name}</div>
+    </div>
+  `;
+  div.addEventListener('click', () => openSeries(idx));
+  portfolioGrid.appendChild(div);
+});
+
+/* ========== SERIES MODAL ========== */
+function openSeries(idx) {
+  const item = portfolioData[idx];
+  
+  const modal = document.createElement('div');
+  modal.className = 'fixed inset-0 z-[9000] bg-ink overflow-y-auto';
+  modal.innerHTML = `
+    <div class="sticky top-0 z-10 bg-ink/95 backdrop-blur-md border-b border-gold/20 px-4 sm:px-6 py-4 flex items-center justify-between">
+      <h2 class="font-serif text-xl sm:text-2xl text-gold">${item.name}</h2>
+      <button class="close-modal text-white text-3xl hover:text-gold transition">×</button>
+    </div>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+        ${item.series.map(src => `
+          <div class="overflow-hidden">
+            <img src="${src}" alt="${item.name}" class="w-full h-auto hover:scale-105 transition-transform duration-500">
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  document.body.style.overflow = 'hidden';
+  
+  modal.querySelector('.close-modal').addEventListener('click', () => {
+    modal.remove();
+    document.body.style.overflow = '';
+  });
+  
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.remove();
+      document.body.style.overflow = '';
+    }
+  });
+}
+
+/* ========== NAV ACTIVE STATE ========== */
+const navLinks = document.querySelectorAll('.nav-link');
+const sections = document.querySelectorAll('section');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop;
+    const sectionHeight = section.clientHeight;
+    if (pageYOffset >= sectionTop - 200) {
+      current = section.getAttribute('id');
+    }
+  });
+
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href').slice(1) === current) {
+      link.classList.add('active');
+    }
+  });
+});
+
+/* ========== REVEAL ANIMATIONS ========== */
+const observerOptions = {
+  threshold: 0.15,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+      entry.target.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+      observer.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ========== HERO ANIMATION ========== */
+setTimeout(() => {
+  document.querySelectorAll('#home .reveal').forEach((el, i) => {
+    setTimeout(() => {
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
+      el.style.transition = 'opacity 1s ease, transform 1s ease';
+    }, i * 200);
+  });
+}, 300);
+</script>
+</body>
+</html>
